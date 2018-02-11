@@ -16,6 +16,6 @@ def response_data(status_code=200, message=None, description=None, data={}, **kw
     }, **kwargs)
 
 
-def response(status_code=200, message=None, description=None, data={}, **kwargs):
+def response(status_code=200, message=None, description=None, data={}, msg_args=[], msg_kwargs={}, desc_args=[], desc_kwargs={}, **kwargs):
     message, description = (message or status_code.message, description or status_code.description) if isinstance(status_code, StatusCodeField) else (message, description)
-    return JsonResponse(response_data(status_code, message, description, data, **kwargs), safe=False)
+    return JsonResponse(response_data(status_code, message.format(*msg_args, **msg_kwargs), description.format(*desc_args, **desc_kwargs), data, **kwargs), safe=False)
